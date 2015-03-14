@@ -95,7 +95,7 @@ void generate(module::Perlin& alt, int w, int h){
     writer.WriteDestFile();
 }
 
-void print(Map& m){
+void TG::print(Map& m){
     for (int j=0; j<m.getHeight(); j++) {
         for (int i=0; i<m.getWidth(); i++) {
             TileType t = m.getTile(i, j).type;
@@ -228,39 +228,40 @@ BiomeType TerrainGenerator::chooseBiome(float h, float m) {
     return t;
 }
 
-TileType TerrainGenerator::handleBiome(BiomeType bt, float dval){
+void TerrainGenerator::handleBiome(BiomeType bt, float dval, class Tile& tile){
     dval = fabs(dval);
     TileType type;
+    ExtraType extra = None;
     switch (bt) {
         case Forest:
             type = TileType::Grass;
-//            if (dval > 90) {
-//                npc = new Cow(i, j);
-//            } else if (dval > 15) {
-//                npc = new Tree(i, j, type);
-//            }
+            if (dval > 90) {
+                extra = Cow;
+            } else if (dval > 15) {
+                extra = ForestTree;
+            }
             break;
         case Dry_desert:
             type = TileType::Sand;
             break;
         case Trop_desert:
             type = TileType::Sand;
-//            if (dval > 80)
-//                npc = new Tree(i, j, type);
+            if (dval > 80)
+                extra = DesertTree;
             break;
         case Woods:
             type = TileType::Dark;
-//            if (dval > 100)
-//                npc = new Werewolf(i, j);
-//            else if (dval > 15)
-//                npc = new Tree(i, j, Type.dark);
+            if (dval > 100)
+                extra = Werewolf;
+            else if (dval > 15)
+                extra = DarkTree;
             break;
         case Rocky:
             type = TileType::Stone;
-//            if (dval > 100)
-//                npc = new RockMonster(i, j);
-//            else if (dval > 25)
-//                npc = new Rock(i, j);
+            if (dval > 100)
+                extra = RockMonster;
+            else if (dval > 25)
+                extra = Rock;
             break;
         case Tundra:
             type = TileType::Snow;
@@ -269,8 +270,8 @@ TileType TerrainGenerator::handleBiome(BiomeType bt, float dval){
             break;
         case Snow_forest:
             type = TileType::Snow;
-//            if (dval > 15)
-//                npc = new Tree(i, j, Type.snow);
+            if (dval > 15)
+                extra = SnowTree;
             break;
         case Grassland:
             type = TileType::Grass;
@@ -281,11 +282,8 @@ TileType TerrainGenerator::handleBiome(BiomeType bt, float dval){
             throw new ExceptionInvalidParam();
             break;
     }
-    return type;
-//    Tile t = new Tile(type, i, j);
-//    gm.put(i, j, t);
-//    if (npc != null)
-//        npcm.add(npc);
+    tile.type = type;
+    tile.extra = extra;
 }
 
 void TerrainGenerator::generateMap(int w, int h){
@@ -342,14 +340,15 @@ void TerrainGenerator::generateMap(int w, int h){
             TileType type;
             if(aval>_waterline){
                 BiomeType bt = chooseBiome(aMap.GetValue(i, j), mMap.GetValue(i, j));
-                type = handleBiome(bt, dMap.GetValue(i, j));
-            }else if(aval>_deepwaterline){
-                type = TileType::ShallowWater;
+                handleBiome(bt, dMap.GetValue(i, j), _result->getTile(i, j));
             }else{
-                type = TileType::Water;
+                if(aval>_deepwaterline){
+                    type = TileType::ShallowWater;
+                }else{
+                    type = TileType::Water;
+                }
+                _result->getTile(i, j).type = type;
             }
-            _result->getTile(i, j).type = type;
         }
     }
-    print(*_result);
 }

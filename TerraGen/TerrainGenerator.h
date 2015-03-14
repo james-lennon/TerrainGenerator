@@ -26,7 +26,7 @@ namespace TG {
     };
     
     enum ExtraType{
-        None, ForestTree, DesertTree, SnowTree, DarkTree, Rock
+        None, ForestTree, DesertTree, SnowTree, DarkTree, Rock, Cow, Werewolf, RockMonster
     };
     
     class Tile{
@@ -62,6 +62,8 @@ namespace TG {
         bool isInBounds(int x, int y);
     };
     
+    void print(Map& m);
+    
     class TerrainGenerator {
         
     public:
@@ -79,7 +81,7 @@ namespace TG {
         void smooth(utils::NoiseMap& map);
         std::set<float> generateSet(utils::NoiseMap& map);
         BiomeType chooseBiome(float h, float m);
-        TileType handleBiome(BiomeType bt, float detail);
+        void handleBiome(BiomeType bt, float detail, class Tile& tile);
     };
     
 }

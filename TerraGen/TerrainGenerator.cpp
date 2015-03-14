@@ -16,10 +16,15 @@ using namespace TG;
 using namespace noise;
 using namespace std;
 
+Tile::Tile(){
+    type = TileType::Grass;
+    extra = ExtraType::None;
+}
+
 Map::Map(int w, int h){
     _w = w;
     _h = h;
-    grid = (TileType*)malloc(_w * _h * sizeof(TileType));
+    grid = vector<class Tile>(_w*_h);
 }
 
 void Map::setHeight(int h){
@@ -42,12 +47,12 @@ bool Map::isInBounds(int x, int y){
     return x>=0 && x<_w && y>=0 && y<_h;
 }
 
-TileType& Map::getTile(int x, int y){
+class Tile& Map::getTile(int x, int y){
     return grid[(y*_w + x%_w)];
 }
 
-void Map::setTile(TG::TileType type, int x, int y){
-    getTile(x, y) = type;
+void Map::setTileType(TG::TileType type, int x, int y){
+    getTile(x, y).type = type;
 }
 
 void render(utils::NoiseMap& heightMap, std::string name){
@@ -55,9 +60,6 @@ void render(utils::NoiseMap& heightMap, std::string name){
     utils::Image image;
     renderer.SetSourceNoiseMap(heightMap);
     renderer.SetDestImage(image);
-//    renderer.EnableLight();
-//    renderer.SetLightContrast(3.0);
-//    renderer.SetLightBrightness(2.0);
     renderer.Render();
     
     utils::WriterBMP writer;
@@ -96,7 +98,7 @@ void generate(module::Perlin& alt, int w, int h){
 void print(Map& m){
     for (int j=0; j<m.getHeight(); j++) {
         for (int i=0; i<m.getWidth(); i++) {
-            TileType t = m.getTile(i, j);
+            TileType t = m.getTile(i, j).type;
             char c = '0';
             switch (t) {
                 case Grass:
@@ -141,6 +143,10 @@ TerrainGenerator::TerrainGenerator(){
     _result = nullptr;
 }
 
+Map* TerrainGenerator::getResult(){
+    return _result;
+}
+
 void TerrainGenerator::fillNoiseMap(utils::NoiseMap &map, module::Perlin& perlin){
     utils::NoiseMapBuilderPlane heightMapBuilder;
     heightMapBuilder.SetSourceModule(perlin);
@@ -148,6 +154,26 @@ void TerrainGenerator::fillNoiseMap(utils::NoiseMap &map, module::Perlin& perlin
     heightMapBuilder.SetDestSize(_w, _h);
     heightMapBuilder.SetBounds(5.0, _w+5, 5.0, _h+5);
     heightMapBuilder.Build();
+}
+
+void TerrainGenerator::smooth(utils::NoiseMap &map){
+    for (int i = 0; i < map.GetWidth(); i++) {
+        for (int j = 0; j < map.GetHeight(); j++) {
+            double average = 0.0;
+            int times = 0;
+            for (int k = -1; k <= 1; k++) {
+                for (int l = -1; l < 2; l++) {
+                    int a = i + k, b = j + l;
+                    if (a >= 0 && a < map.GetWidth() && b >= 0 && b < map.GetHeight()) {
+                        times++;
+                        average += map.GetValue(a, b);
+                    }
+                }
+            }
+            average /= times;
+            map.SetValue(i, j, average);
+        }
+    }
 }
 
 set<float> TerrainGenerator::generateSet(utils::NoiseMap& map){
@@ -275,11 +301,11 @@ void TerrainGenerator::generateMap(int w, int h){
     module::Perlin alt, moist, details;
     alt.SetSeed(rand() * RAND_MAX);
     alt.SetOctaveCount(8);
-    alt.SetFrequency(.02);
+    alt.SetFrequency(.015);
     
     moist.SetSeed((int)random());
     moist.SetOctaveCount(8);
-    moist.SetFrequency(.05);
+    moist.SetFrequency(.045);
     
     details.SetSeed((int)random());
     details.SetOctaveCount(8);
@@ -294,6 +320,9 @@ void TerrainGenerator::generateMap(int w, int h){
     render(aMap, "alt.bmp");
     render(mMap, "moist.bmp");
     render(dMap, "details.bmp");
+    
+    smooth(aMap);
+    smooth(mMap);
     
     set<float> aSet = generateSet(aMap), mSet = generateSet(mMap);
     float aLow = *aSet.begin(), aHigh = *(--aSet.end());
@@ -319,7 +348,7 @@ void TerrainGenerator::generateMap(int w, int h){
             }else{
                 type = TileType::Water;
             }
-            _result->getTile(i, j) = type;
+            _result->getTile(i, j).type = type;
         }
     }
     print(*_result);

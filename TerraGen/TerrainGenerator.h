@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <noise/noise.h>
 #include <set>
+#include <vector>
 #include "noise/noiseutils.h"
 
 namespace TG {
@@ -24,14 +25,29 @@ namespace TG {
         Water, ShallowWater, Sand, Dirt, Dark, Grass, Lava, Stone, Tile, Snow
     };
     
+    enum ExtraType{
+        None, ForestTree, DesertTree, SnowTree, DarkTree, Rock
+    };
+    
+    class Tile{
+        
+    public:
+        Tile();
+        TileType type;
+        ExtraType extra;
+        
+    private:
+        
+    };
+    
     class Map{
         
     public:
         Map(int w, int h);
         int getWidth();
         int getHeight();
-        void setTile(TileType type, int x, int y);
-        TileType& getTile(int x, int y);
+        void setTileType(TileType type, int x, int y);
+        class Tile& getTile(int x, int y);
         /*
          void save(string fileName);
          void load(string fileName);
@@ -39,7 +55,7 @@ namespace TG {
         
     private:
         int _w,_h;
-        TileType *grid;
+        std::vector<class Tile> grid;
         
         void setWidth(int w);
         void setHeight(int h);
@@ -51,7 +67,7 @@ namespace TG {
     public:
         TerrainGenerator();
         void generateMap(int w, int h);
-        Map getResult();
+        Map* getResult();
         
     private:
         Map *_result;
@@ -60,6 +76,7 @@ namespace TG {
         float _waterline, _deepwaterline;
         
         void fillNoiseMap(utils::NoiseMap &map, module::Perlin& perlin);
+        void smooth(utils::NoiseMap& map);
         std::set<float> generateSet(utils::NoiseMap& map);
         BiomeType chooseBiome(float h, float m);
         TileType handleBiome(BiomeType bt, float detail);

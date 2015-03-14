@@ -12,7 +12,7 @@
 int main(int argc, const char * argv[]) {
     
     TG::TerrainGenerator gen;
-    gen.generateMap(500, 500);
+    gen.generateMap(68, 68);
     
     return 0;
 }

@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <noise/noise.h>
 #include <set>
-#include "noiseutils.h"
+#include "noise/noiseutils.h"
 
 namespace TG {
     

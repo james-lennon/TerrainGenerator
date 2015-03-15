@@ -345,8 +345,8 @@ void TerrainGenerator::generateMap(int w, int h){
             float aval = aMap.GetValue(i, j), mval = mMap.GetValue(i, j);
             TileType type;
             
-            float curWater =LinearInterp(_waterline, wMap.GetValue(i, j), .25);
-            float curDeep =LinearInterp(_deepwaterline, wMap.GetValue(i, j), .25);
+            float curWater =LinearInterp(_waterline, wMap.GetValue(i, j), .35);
+            float curDeep =LinearInterp(_deepwaterline, wMap.GetValue(i, j), .35);
             
             if(aval>curWater){
                 BiomeType bt = chooseBiome(aMap.GetValue(i, j), mMap.GetValue(i, j));

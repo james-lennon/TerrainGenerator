@@ -29,10 +29,10 @@ namespace TG {
         None, ForestTree, DesertTree, SnowTree, DarkTree, Rock, Cow, Werewolf, RockMonster
     };
     
-    class Tile{
+    class TerrainTile{
         
     public:
-        Tile();
+        TerrainTile();
         TileType type;
         ExtraType extra;
         
@@ -47,7 +47,7 @@ namespace TG {
         int getWidth();
         int getHeight();
         void setTileType(TileType type, int x, int y);
-        class Tile& getTile(int x, int y);
+        TerrainTile& getTile(int x, int y);
         /*
          void save(string fileName);
          void load(string fileName);
@@ -55,7 +55,7 @@ namespace TG {
         
     private:
         int _w,_h;
-        std::vector<class Tile> grid;
+        std::vector<TerrainTile> grid;
         
         void setWidth(int w);
         void setHeight(int h);
@@ -81,7 +81,7 @@ namespace TG {
         void smooth(utils::NoiseMap& map);
         std::set<float> generateSet(utils::NoiseMap& map);
         BiomeType chooseBiome(float h, float m);
-        void handleBiome(BiomeType bt, float detail, class Tile& tile);
+        void handleBiome(BiomeType bt, float detail, TerrainTile& tile);
     };
     
 }

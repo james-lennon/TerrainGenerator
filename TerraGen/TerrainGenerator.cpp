@@ -16,7 +16,7 @@ using namespace TG;
 using namespace noise;
 using namespace std;
 
-Tile::Tile(){
+TerrainTile::TerrainTile(){
     type = TileType::Grass;
     extra = ExtraType::None;
 }
@@ -24,7 +24,7 @@ Tile::Tile(){
 Map::Map(int w, int h){
     _w = w;
     _h = h;
-    grid = vector<class Tile>(_w*_h);
+    grid = vector<TerrainTile>(_w*_h);
 }
 
 void Map::setHeight(int h){
@@ -47,7 +47,7 @@ bool Map::isInBounds(int x, int y){
     return x>=0 && x<_w && y>=0 && y<_h;
 }
 
-class Tile& Map::getTile(int x, int y){
+TerrainTile& Map::getTile(int x, int y){
     return grid[(y*_w + x%_w)];
 }
 
@@ -228,8 +228,8 @@ BiomeType TerrainGenerator::chooseBiome(float h, float m) {
     return t;
 }
 
-void TerrainGenerator::handleBiome(BiomeType bt, float dval, class Tile& tile){
-    dval = fabs(dval);
+void TerrainGenerator::handleBiome(BiomeType bt, float dval, TerrainTile& tile){
+    dval = (dval);
     TileType type;
     ExtraType extra = None;
     switch (bt) {

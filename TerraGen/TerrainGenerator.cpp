@@ -296,28 +296,34 @@ void TerrainGenerator::generateMap(int w, int h){
     _w = w;
     _h = h;
     _result = new Map(w,h);
-    module::Perlin alt, moist, details;
+    module::Perlin alt, moist, details, waterLev;
     alt.SetSeed(rand() * RAND_MAX);
     alt.SetOctaveCount(8);
     alt.SetFrequency(.015);
     
-    moist.SetSeed((int)random());
+    moist.SetSeed(rand() * RAND_MAX);
     moist.SetOctaveCount(8);
     moist.SetFrequency(.045);
     
-    details.SetSeed((int)random());
+    details.SetSeed(rand() * RAND_MAX);
     details.SetOctaveCount(8);
     details.SetFrequency(4.9);
     details.SetPersistence(2.0);
     
-    utils::NoiseMap aMap, mMap, dMap;
+    waterLev.SetSeed((int)rand() * RAND_MAX);
+    waterLev.SetOctaveCount(8);
+    waterLev.SetFrequency(.005);
+    
+    utils::NoiseMap aMap, mMap, dMap, wMap;
     fillNoiseMap(aMap, alt);
     fillNoiseMap(mMap, moist);
     fillNoiseMap(dMap, details);
+    fillNoiseMap(wMap, waterLev);
     
     render(aMap, "alt.bmp");
     render(mMap, "moist.bmp");
     render(dMap, "details.bmp");
+    render(wMap, "water.bmp");
     
     smooth(aMap);
     smooth(mMap);
@@ -338,11 +344,15 @@ void TerrainGenerator::generateMap(int w, int h){
         for (int i=0; i<_w; i++) {
             float aval = aMap.GetValue(i, j), mval = mMap.GetValue(i, j);
             TileType type;
-            if(aval>_waterline){
+            
+            float curWater =LinearInterp(_waterline, wMap.GetValue(i, j), .25);
+            float curDeep =LinearInterp(_deepwaterline, wMap.GetValue(i, j), .25);
+            
+            if(aval>curWater){
                 BiomeType bt = chooseBiome(aMap.GetValue(i, j), mMap.GetValue(i, j));
                 handleBiome(bt, dMap.GetValue(i, j), _result->getTile(i, j));
             }else{
-                if(aval>_deepwaterline){
+                if(aval>curDeep){
                     type = TileType::ShallowWater;
                 }else{
                     type = TileType::Water;

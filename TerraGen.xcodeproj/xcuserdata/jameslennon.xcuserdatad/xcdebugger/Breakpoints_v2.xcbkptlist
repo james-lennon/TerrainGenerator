@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TerraGen/TerrainGenerator.cpp"
-            timestampString = "448065367.711249"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
-            landmarkName = "TerrainGenerator::handleBiome(BiomeType bt, float dval, class Tile&amp; tile)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TerraGen/TerrainGenerator.cpp"
             timestampString = "448065730.756479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "268"
             endingLineNumber = "268"
-            landmarkName = "TerrainGenerator::handleBiome(BiomeType bt, float dval, class Tile&amp; tile)"
+            landmarkName = "TerrainGenerator::handleBiome(BiomeType bt, float dval, TerrainTile&amp; tile)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -47,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "278"
             endingLineNumber = "278"
-            landmarkName = "TerrainGenerator::handleBiome(BiomeType bt, float dval, class Tile&amp; tile)"
+            landmarkName = "TerrainGenerator::handleBiome(BiomeType bt, float dval, TerrainTile&amp; tile)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

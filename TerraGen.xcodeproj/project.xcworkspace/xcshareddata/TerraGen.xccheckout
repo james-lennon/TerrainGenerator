@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EEB8E74D-1AA6-420F-91A5-B99A5FDE39A0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TerraGen</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>16C5C35189671FA161AF9F732E934BF8BB233730</key>
+		<string>https://github.com/jameslennon321/TerrainGenerator.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TerraGen.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>16C5C35189671FA161AF9F732E934BF8BB233730</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/jameslennon321/TerrainGenerator.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>16C5C35189671FA161AF9F732E934BF8BB233730</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>16C5C35189671FA161AF9F732E934BF8BB233730</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TerrainGenerator</string>
+		</dict>
+	</array>
+</dict>
+</plist>

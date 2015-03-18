@@ -320,10 +320,10 @@ void TerrainGenerator::generateMap(int w, int h){
     fillNoiseMap(dMap, details);
     fillNoiseMap(wMap, waterLev);
     
-    render(aMap, "alt.bmp");
-    render(mMap, "moist.bmp");
-    render(dMap, "details.bmp");
-    render(wMap, "water.bmp");
+//    render(aMap, "alt.bmp");
+//    render(mMap, "moist.bmp");
+//    render(dMap, "details.bmp");
+//    render(wMap, "water.bmp");
     
     smooth(aMap);
     smooth(mMap);

@@ -6,11 +6,15 @@
 //  Copyright (c) 2015 James Lennon. All rights reserved.
 //
 
+/* TODO:
+ add spawn points
+ */
+
 #ifndef __TerraGen__TerrainGenerator__
 #define __TerraGen__TerrainGenerator__
 
 #include <stdio.h>
-#include <noise/noise.h>
+#include "noise/noise.h"
 #include <set>
 #include <vector>
 #include "noise/noiseutils.h"
@@ -35,6 +39,7 @@ namespace TG {
         TerrainTile();
         TileType type;
         ExtraType extra;
+        float heightFactor;
         
     private:
         

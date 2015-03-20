@@ -19,6 +19,7 @@ using namespace std;
 TerrainTile::TerrainTile(){
     type = TileType::Grass;
     extra = ExtraType::None;
+    heightFactor = 0.f;
 }
 
 Map::Map(int w, int h){
@@ -344,6 +345,7 @@ void TerrainGenerator::generateMap(int w, int h){
         for (int i=0; i<_w; i++) {
             float aval = aMap.GetValue(i, j), mval = mMap.GetValue(i, j);
             TileType type;
+            _result->getTile(i, j).heightFactor = aval;
             
             float curWater =LinearInterp(_waterline, wMap.GetValue(i, j), .35);
             float curDeep =LinearInterp(_deepwaterline, wMap.GetValue(i, j), .35);
